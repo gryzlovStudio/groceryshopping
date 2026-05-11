@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>&#1050;&#1091;&#1083;&#1080;&#1085;&#1072;&#1088;&#1085;&#1072;&#1103; &#1082;&#1085;&#1080;&#1075;&#1072;</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Nunito:wght@300;400;600;700&display=swap');
+
+  :root {
+    --bg: #FAF7F2;
+    --card: #FFFFFF;
+    --text: #2A2218;
+    --muted: #8B7355;
+    --border: #EDE8E0;
+    --dash: #D5CBC0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 40px;
+  }
+
+  .header { text-align: center; padding: 32px 20px 20px; }
+  .header-sup { font-size: 11px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; font-weight: 300; margin-bottom: 8px; }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--text); line-height: 1.2; }
+  .header-line { width: 50px; height: 2px; background: #C8882A; margin: 10px auto 0; border-radius: 2px; }
+
+  .section-tabs { display: flex; gap: 8px; padding: 0 16px; margin-bottom: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .section-tabs::-webkit-scrollbar { display: none; }
+
+  .sec-btn { flex-shrink: 0; padding: 9px 16px; border-radius: 20px; border: none; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; background: var(--border); color: #5A5040; transition: all 0.2s; }
+  .sec-btn.active { color: #fff; }
+
+  .dish-list { display: flex; gap: 8px; padding: 0 16px; margin-bottom: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .dish-list::-webkit-scrollbar { display: none; }
+
+  .dish-btn { flex-shrink: 0; padding: 8px 14px; border-radius: 12px; border: 1.5px solid var(--border); font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; background: var(--card); color: #5A5040; transition: all 0.2s; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dish-btn.active { color: #fff; border-color: transparent; }
+
+  .card { margin: 0 16px; background: var(--card); border-radius: 18px; padding: 20px; box-shadow: 0 2px 20px rgba(0,0,0,0.07); }
+
+  .dish-header { margin-bottom: 18px; }
+  .dish-emoji { font-size: 26px; margin-bottom: 6px; display: block; }
+  .dish-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 8px; }
+  .dish-time { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; color: var(--muted); }
+
+  .tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 18px; }
+  .tab-btn { flex: 1; padding: 10px 8px; border: none; background: none; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; }
+  .tab-btn.active { color: var(--text); }
+
+  .ing-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px dashed var(--dash); gap: 10px; }
+  .ing-row:last-child { border-bottom: none; }
+  .ing-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .ing-why { font-size: 11px; color: var(--muted); font-style: italic; }
+  .ing-amount { font-size: 13px; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+
+  .step-item { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+  .step-num { min-width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+  .step-text { font-size: 14px; color: #3A3025; line-height: 1.6; padding-top: 3px; }
+
+  .tip-box { margin-top: 18px; padding: 12px 14px; border-radius: 12px; border-left: 3px solid; }
+  .tip-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .tip-text { font-size: 13px; color: #3A3025; line-height: 1.5; }
+
+  .ing-count { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .footer { text-align: center; margin-top: 28px; font-size: 11px; color: #C0B8A8; letter-spacing: 1px; padding: 0 20px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-sup">Bangkok &middot; Lotus &middot; Неделя</div>
+  <h1>Кулинарная книга</h1>
+  <div class="header-line"></div>
+</div>
+
+<div class="section-tabs" id="sectionTabs"></div>
+<div class="dish-list" id="dishList"></div>
+<div class="card" id="mainCard"></div>
+<div class="footer">Все блюда адаптированы под гастрит &middot; Без жирного &middot; Bangkok</div>
+
+<script>
+var recipes = [
+  {
+    category: "Завтраки", emoji: "🌅", color: "#F5E6C8", accent: "#C8882A",
+    dishes: [
+      {
+        name: "Яйца пашот на тосте", emoji: "🍳", time: "10 мин",
+        ingredients: [
+          { item: "Яйца куриные", amount: "2 шт", why: "основа блюда" },
+          { item: "Хлеб для тостов", amount: "2 ломтика", why: "основа тоста" },
+          { item: "Авокадо", amount: "1/2 шт", why: "намазывается на тост" },
+          { item: "Лимон", amount: "несколько капель", why: "в воду при варке и на авокадо" },
+          { item: "Помидоры черри", amount: "5-6 шт", why: "украшение и свежесть" },
+          { item: "Зелёный лук", amount: "пару стеблей", why: "посыпать сверху" },
+          { item: "Соль, перец", amount: "по вкусу", why: "специи" }
+        ],
+        steps: [
+          "Налей воду в сотейник (7-8 см), добавь каплю уксуса и лимонного сока, нагрей до 90°C - лёгкое кипение без бурления.",
+          "Разбей яйцо в чашку, сделай воронку ложкой, аккуратно опусти яйцо - варить 3 минуты.",
+          "Тост поджарь, намажь авокадо с лимоном и солью.",
+          "Выложи яйцо на тост, посыпь перцем и луком, рядом черри."
+        ],
+        tip: "Чем свежее яйцо - тем лучше пашот держит форму."
+      },
+      {
+        name: "Яйца всмятку с творожным сыром", emoji: "🥚", time: "8 мин",
+        ingredients: [
+          { item: "Яйца куриные", amount: "2-3 шт", why: "варятся в скорлупе" },
+          { item: "Хлеб для тостов", amount: "2 ломтика", why: "основа" },
+          { item: "Творожный сыр или рикотта", amount: "2 ст.л.", why: "намазывается на тост вместо масла" },
+          { item: "Помидоры черри", amount: "горсть", why: "свежесть рядом" },
+          { item: "Зелёный лук или укроп", amount: "по вкусу", why: "сверху на сыр" }
+        ],
+        steps: [
+          "Яйца залей холодной водой, на среднем огне доведи до кипения.",
+          "Вари 5-6 минут (всмятку) или 7 минут (в мешочек).",
+          "Сразу переложи в холодную воду на 1 минуту - так чистятся легче.",
+          "Тост поджарь, намажь творожным сыром, посыпь луком.",
+          "Подавай с черри рядом."
+        ],
+        tip: "Рикотта - очень нежная, почти без жира. Хорошо при гастрите."
+      },
+      {
+        name: "Паровой омлет", emoji: "🌿", time: "12 мин",
+        ingredients: [
+          { item: "Яйца куриные", amount: "3 шт", why: "основа омлета" },
+          { item: "Зелёный лук", amount: "несколько стеблей", why: "внутрь омлета" },
+          { item: "Помидоры черри", amount: "5 шт", why: "разрезать пополам, внутрь" },
+          { item: "Соль, перец", amount: "по вкусу", why: "специи" },
+          { item: "Хлеб для тостов", amount: "1-2 ломтика", why: "рядом" }
+        ],
+        steps: [
+          "Взбей яйца с солью и перцем, добавь нарезанный лук и черри.",
+          "Вылей в форму, подходящую для пара (или силиконовую).",
+          "Готовь на пару 10-12 минут до застывания.",
+          "Подавай с тостом."
+        ],
+        tip: "Добавь 1 ст.л. воды в яйца - омлет будет нежнее."
+      }
+    ]
+  },
+  {
+    category: "Суп", emoji: "🍲", color: "#E8F0E0", accent: "#4A7C3F",
+    dishes: [
+      {
+        name: "Куриный суп с овощами", emoji: "🍗", time: "1.5 часа",
+        ingredients: [
+          { item: "Курица или набор для бульона", amount: "1.5 кг", why: "наваристый бульон и много мяса" },
+          { item: "Картошка", amount: "5-6 шт", why: "сытность, добавляется в конце" },
+          { item: "Морковь", amount: "3-4 шт", why: "2 в бульон целиком, остальные кусочками" },
+          { item: "Лук репчатый", amount: "3 шт", why: "2 целых в бульон, 1 нарезать" },
+          { item: "Цветная капуста", amount: "1 головка", why: "легко переносится при гастрите" },
+          { item: "Кабачок или цукини", amount: "2 шт", why: "мягкий нейтральный овощ" },
+          { item: "Сельдерей стебель", amount: "3-4 стебля", why: "глубина вкуса бульона" },
+          { item: "Чеснок", amount: "3-4 зубчика", why: "в бульон целыми" },
+          { item: "Лавровый лист", amount: "3 шт", why: "классика бульона" },
+          { item: "Перец горошком", amount: "7-8 шт", why: "аромат без остроты" },
+          { item: "Петрушка", amount: "пучок", why: "стебли в бульон, листья при подаче" },
+          { item: "Соль", amount: "по вкусу", why: "солить только в конце" }
+        ],
+        steps: [
+          "Курицу залей холодной водой (4-5 л), доведи до кипения, сними пену.",
+          "Добавь 2 моркови целиком, 2 луковицы целиком, сельдерей, чеснок, лавровый лист, перец горошком, стебли петрушки.",
+          "Вари на медленном огне 1-1.5 часа под крышкой.",
+          "Достань курицу, отдели мясо от костей, порви руками. Овощи из бульона выбрось - они отдали всё.",
+          "Бульон процеди через сито.",
+          "Верни на огонь, добавь нарезанную морковь, лук, картошку. Вари 10 минут.",
+          "Добавь цветную капусту соцветиями и кабачок кубиком. Вари ещё 10-12 минут.",
+          "Верни мясо в кастрюлю, посоли, добавь петрушку. Готово."
+        ],
+        tip: "Не кипяти бульон сильно - только томи. Тогда будет прозрачным. Нет жира, нет острого - идеально при гастрите."
+      }
+    ]
+  },
+  {
+    category: "Ужины", emoji: "🌙", color: "#E8E4F0", accent: "#5A4A8A",
+    dishes: [
+      {
+        name: "Куриные бёдра в аэрогриле", emoji: "🍗", time: "35 мин + маринад",
+        ingredients: [
+          { item: "Куриные бёдра без кожи", amount: "1 кг", why: "без кожи - меньше жира" },
+          { item: "Оливковое масло", amount: "2 ст.л.", why: "маринад, не даёт пересохнуть" },
+          { item: "Чеснок", amount: "3 зубчика", why: "протереть в маринад" },
+          { item: "Прованские травы или розмарин", amount: "1 ч.л.", why: "аромат и вкус" },
+          { item: "Лимон", amount: "1/2 шт", why: "сок в маринад, делает мясо мягче" },
+          { item: "Соль, перец", amount: "по вкусу", why: "специи" }
+        ],
+        steps: [
+          "Смешай масло, давленый чеснок, травы, лимонный сок, соль, перец.",
+          "Натри бёдра маринадом, оставь минимум 30 минут (лучше на ночь).",
+          "Аэрогриль разогрей до 180°C.",
+          "Готовь 25-30 минут, перевернув на середине.",
+          "Проверь готовность - сок должен быть прозрачным.",
+          "Раздели на порции, убери в контейнеры. Хранить 4-5 дней."
+        ],
+        tip: "Разогревать в микроволновке 2 мин или в аэрогриле 5 мин при 160°C. Подавать с гречкой или рисом."
+      },
+      {
+        name: "Тушёная рыба с перцем и томатами", emoji: "🐟", time: "25 мин",
+        ingredients: [
+          { item: "Рыба (дорадо, тилапия, хек)", amount: "1 кг", why: "нежирная, легко усваивается" },
+          { item: "Болгарский перец", amount: "3 шт", why: "нарезать полосками, тушится с рыбой" },
+          { item: "Томаты в собственном соку", amount: "1 банка", why: "основа соуса, без жира" },
+          { item: "Лук репчатый", amount: "1 шт", why: "в основу соуса" },
+          { item: "Чеснок", amount: "2 зубчика", why: "аромат" },
+          { item: "Оливковое масло", amount: "1 ст.л.", why: "для обжарки лука" },
+          { item: "Прованские травы", amount: "1/2 ч.л.", why: "аромат" },
+          { item: "Соль, перец", amount: "по вкусу", why: "специи" }
+        ],
+        steps: [
+          "Лук нарежь полукольцами, обжарь на масле 3-4 минуты.",
+          "Добавь нарезанный перец, туши ещё 5 минут.",
+          "Добавь помидоры из банки, раздави руками, чеснок и травы. Туши 5 минут.",
+          "Рыбу нарежь на куски, посоли, выложи в соус.",
+          "Накрой крышкой, туши 10-12 минут на среднем огне.",
+          "Раздели на порции. Хранить 3-4 дня."
+        ],
+        tip: "Дорадо или тилапия - самые нежные и без сильного рыбного запаха. Хорошо при гастрите."
+      },
+      {
+        name: "Котлеты из индейки + овощи", emoji: "🫑", time: "40 мин",
+        ingredients: [
+          { item: "Фарш индейки или куриный", amount: "500 г", why: "диетическое мясо, основа котлет" },
+          { item: "Лук репчатый", amount: "1 шт", why: "натереть в фарш" },
+          { item: "Яйцо куриное", amount: "1 шт", why: "связующее в фарше" },
+          { item: "Чеснок", amount: "1 зубчик", why: "в фарш" },
+          { item: "Зелёный лук или укроп", amount: "горсть", why: "в фарш, свежесть" },
+          { item: "Баклажан", amount: "2 шт", why: "запекать кусочками в аэрогриле" },
+          { item: "Брокколи", amount: "1 головка", why: "запекать соцветиями" },
+          { item: "Болгарский перец", amount: "1 шт", why: "запекать полосками" },
+          { item: "Оливковое масло", amount: "1 ст.л.", why: "для овощей перед запеканием" },
+          { item: "Соль, перец, травы", amount: "по вкусу", why: "специи" }
+        ],
+        steps: [
+          "Фарш смешай с тёртым луком, яйцом, чесноком, зеленью, солью.",
+          "Слепи котлеты (8-10 штук), выложи в пароварку или на решётку над кипящей водой.",
+          "Готовь на пару 20-25 минут.",
+          "Параллельно: нарежь баклажан, брокколи, перец, сбрызни маслом, посоли.",
+          "Аэрогриль 190°C - запекай овощи 20-22 минуты, перемешав в середине.",
+          "Раздели всё по контейнерам. Хранить 4-5 дней."
+        ],
+        tip: "Котлеты отлично переносят заморозку - часть можно заморозить на следующую неделю."
+      }
+    ]
+  }
+];
+
+var currentSection = 0;
+var currentDish = 0;
+var currentTab = "ingredients";
+
+function render() {
+  var sec = recipes[currentSection];
+  var dish = sec.dishes[currentDish];
+
+  var st = document.getElementById("sectionTabs");
+  st.innerHTML = "";
+  recipes.forEach(function(r, i) {
+    var btn = document.createElement("button");
+    btn.className = "sec-btn" + (i === currentSection ? " active" : "");
+    btn.textContent = r.emoji + " " + r.category;
+    if (i === currentSection) btn.style.background = r.accent;
+    btn.onclick = function() { currentSection = i; currentDish = 0; currentTab = "ingredients"; render(); };
+    st.appendChild(btn);
+  });
+
+  var dl = document.getElementById("dishList");
+  dl.innerHTML = "";
+  sec.dishes.forEach(function(d, i) {
+    var btn = document.createElement("button");
+    btn.className = "dish-btn" + (i === currentDish ? " active" : "");
+    btn.textContent = d.emoji + " " + d.name;
+    if (i === currentDish) { btn.style.background = sec.accent; btn.style.borderColor = sec.accent; }
+    btn.onclick = function() { currentDish = i; currentTab = "ingredients"; render(); };
+    dl.appendChild(btn);
+  });
+
+  var card = document.getElementById("mainCard");
+  var ingHTML = dish.ingredients.map(function(ing) {
+    return '<div class="ing-row"><div><div class="ing-name">' + ing.item + '</div><div class="ing-why">' + ing.why + '</div></div><div class="ing-amount" style="color:' + sec.accent + '">' + ing.amount + '</div></div>';
+  }).join("");
+
+  var stepsHTML = dish.steps.map(function(s, i) {
+    return '<div class="step-item"><div class="step-num" style="background:' + sec.color + ';color:' + sec.accent + '">' + (i+1) + '</div><div class="step-text">' + s + '</div></div>';
+  }).join("");
+
+  card.innerHTML =
+    '<div class="dish-header"><span class="dish-emoji">' + dish.emoji + '</span><div class="dish-name">' + dish.name + '</div><span class="dish-time" style="background:' + sec.color + ';color:' + sec.accent + '">&#9201; ' + dish.time + '</span></div>' +
+    '<div class="tabs"><button class="tab-btn' + (currentTab === "ingredients" ? " active" : "") + '" id="tabIng" style="border-bottom-color:' + (currentTab === "ingredients" ? sec.accent : "transparent") + ';color:' + (currentTab === "ingredients" ? sec.accent : "") + '">&#x1F9FA; Продукты</button><button class="tab-btn' + (currentTab === "steps" ? " active" : "") + '" id="tabSteps" style="border-bottom-color:' + (currentTab === "steps" ? sec.accent : "transparent") + ';color:' + (currentTab === "steps" ? sec.accent : "") + '">&#x1F468;&#x200D;&#x1F373; Приготовление</button></div>' +
+    '<div class="panel' + (currentTab === "ingredients" ? " active" : "") + '" id="panelIng"><div class="ing-count">' + dish.ingredients.length + ' ингредиентов</div>' + ingHTML + '</div>' +
+    '<div class="panel' + (currentTab === "steps" ? " active" : "") + '" id="panelSteps">' + stepsHTML + '</div>' +
+    '<div class="tip-box" style="background:' + sec.color + ';border-color:' + sec.accent + '"><div class="tip-label" style="color:' + sec.accent + '">&#x1F4A1; Совет</div><div class="tip-text">' + dish.tip + '</div></div>';
+
+  document.getElementById("tabIng").onclick = function() { currentTab = "ingredients"; render(); };
+  document.getElementById("tabSteps").onclick = function() { currentTab = "steps"; render(); };
+}
+
+render();
+</script>
+</body>
+</html>
